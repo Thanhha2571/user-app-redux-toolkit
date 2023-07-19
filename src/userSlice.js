@@ -1,17 +1,18 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import userApi from "./services/api";
-
+import { axiosInstance } from "./services/httpServices";
 const initialState = {
   user: {},
-  users: []
+  users: [],
+  loading: false,
 };
 
 //get all users
 export const fetchUsers = createAsyncThunk(
   "users/fetchUsers",
-  async (_, thunkAPI) => {
+  async (input, thunkAPI) => {
     try {
-      const response = await userApi.getUsers();
+      const response = await userApi.getUsers(input);
       return response;
     } catch (err) {
       return thunkAPI.rejectWithValue(err);
@@ -19,6 +20,18 @@ export const fetchUsers = createAsyncThunk(
   }
 );
 
+//get a user
+export const getDetailUser = createAsyncThunk(
+  "users/getDetailUser",
+  async (uuid, thunkAPI) => {
+    try {
+      const response = await userApi.getDetailUser(uuid);
+      return response;
+    } catch (err) {
+      return thunkAPI.rejectWithValue(err);
+    }
+  }
+);
 //create a new user
 export const createUser = createAsyncThunk(
   "users/createUser",
@@ -32,18 +45,99 @@ export const createUser = createAsyncThunk(
   }
 );
 
+//edit user
+// export const editUser = createAsyncThunk(
+//   "users/editUser",
+//   async (userData, thunkAPI) => {
+//     try {
+//       const response = await userApi.editUser(userData);
+//       return response;
+//     } catch (err) {
+//       return thunkAPI.rejectWithValue(err);
+//     }
+//   }
+// );
+export const editUser = createAsyncThunk(
+  "users/editUser",
+  async (userData, thunkAPI) => {
+    try {
+      const response = await axiosInstance.post("api/user/update", userData);
+      return response
+    }catch (err) {
+      return thunkAPI.rejectWithValue(err);
+    }
+  }
+)
+//delete user
+// export const deleteUser = createAsyncThunk(
+//   "users/deleteUser",
+//   async (uuid, thunkAPI) => {
+//     try {
+//       const response = await userApi.deleteUser(uuid);
+//       return response;
+//     }catch (err) {
+//       return thunkAPI.rejectWithValue(err);
+//     }
+//   }
+// );
+
+export const deleteUser = createAsyncThunk(
+  "user/deleteUser",
+  async (uuid) => {
+    try {
+      const response = await axiosInstance.delete("api/user/delete", {
+        data: { uuid },
+      });
+      return response.data;
+    } catch (error) {
+      throw error;
+    }
+  }
+);
+
 export const userSlice = createSlice({
   name: "users",
   initialState,
   reducers: {},
   extraReducers: (builder) => {
     builder
+      // get all users
+      .addCase(fetchUsers.pending, (state, action) => {
+        state.loading = true;
+      })
       .addCase(fetchUsers.fulfilled, (state, action) => {
+        state.loading = false;
         state.users = action.payload.users.rows;
       })
+      .addCase(fetchUsers.rejected, (state, action) => {
+        state.loading = false;
+      })
+
+      //create user
+      .addCase(createUser.pending, (state, action) => {
+        state.loading = true;
+      })
       .addCase(createUser.fulfilled, (state, action) => {
-        state.users.push(action.payload.user);
-      });
+        state.loading = false;
+        state.users.push(action.payload);
+      })
+      .addCase(createUser.rejected, (state, action) => {
+        state.loading = true;
+      })
+
+      // edit user
+      // .addCase(editUser.fulfilled, (state, action) => {
+      //   state.loading = false;
+      //   const { index, updatedUser } = action.payload;
+      //   state.users[index] = updatedUser
+      // })
+
+      // delete user
+      // .addCase(deleteUser.fulfilled, (state, action) => {
+      //   state.loading = false;
+      //   state.users = state.users.filter((user) => user.uuid !== action.payload);
+      //   console.log(state.users);
+      // })
   }
 });
 

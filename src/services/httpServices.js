@@ -70,7 +70,7 @@ import axios, {
   
     // If there is an access token, set the authorization header
     // if (accessToken) {
-      config.headers.Authorization = `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1dWlkIjoiMWViYjE4M2MtZmQ1NC00YzhiLTg1OGQtZjA2YmE5Njk5ZWZmIiwiaWF0IjoxNjg5NjYzODc4LCJleHAiOjE2ODk3NTAyNzh9.4rOffZyqPxRNGqexo6YWLXXT0zokqkDyn9tFMrU_gw0`;
+      config.headers.Authorization = `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1dWlkIjoiMWViYjE4M2MtZmQ1NC00YzhiLTg1OGQtZjA2YmE5Njk5ZWZmIiwiaWF0IjoxNjg5NzUwNzY5LCJleHAiOjE2ODk4MzcxNjl9.0ZAA6VDft20jWgcxCOY-rB4Ojx_M2XosvfhtmENH3no`;
     // }
   };
   
@@ -156,7 +156,7 @@ import axios, {
   export const httpService = {
     async GET(apiConfig) {
       const { uri, params, ...rest } = apiConfig;
-      console.log(apiConfig);
+      // console.log(apiConfig);
       try {
         const res = await axiosInstance.get(uri, {
           params,
@@ -206,12 +206,14 @@ import axios, {
       }
     },
     async DELETE(apiConfig) {
-      const { uri, params, ...rest } = apiConfig;
+      const { uri, params, request, ...rest } = apiConfig;
+      console.log(apiConfig);
       try {
-        const res = await axiosInstance.delete(uri, {
+        const res = await axiosInstance.delete(uri,request, {
           params,
           ...rest,
         });
+        console.log(res);
         return res.data;
       } catch (error) {
         throw error;

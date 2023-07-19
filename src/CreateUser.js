@@ -1,6 +1,8 @@
 import { useState, useEffect } from "react";
 // import axiosInstance, { post } from "./http"
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { createUser } from "./userSlice";
 import "./CreateUser.css"
 const CreateUser = (props) => {
     const [fullname, setFullname] = useState("");
@@ -10,47 +12,41 @@ const CreateUser = (props) => {
     const [confirmPassword, setConfirmPassword] = useState("");
     const [imageSlug, setImageSlug] = useState("");
     const [errorMessage, setErrorMessage] = useState("");
-    const [success, setSuccess] = useState(false)
+    // const [success, setSuccess] = useState(false)
+
     const navigate = useNavigate()
-    // const handleCreateUser = async () => {
-    //     try {
-    //         const response = await axiosInstance.post("api/user/create", {
-    //             fullname,
-    //             username,
-    //             email,
-    //             password,
-    //             confirm_password: confirmPassword,
-    //             image_slug: imageSlug,
-    //         }, {
-    //             headers: {
-    //                 Authorization: `Bearer ${localStorage.getItem("token")}`
-    //             }
-    //         });
+    const dispatch = useDispatch()
+    const handleCreateUser = async () => {
+        try {
+            const userData = {
+                fullname,
+                username,
+                email,
+                password,
+                confirm_password: confirmPassword,
+                image_slug: imageSlug,
+            }
 
-    //         // console.log(response.data);
-    //         console.log(response);
-    //         setFullname("");
-    //         setUsername("");
-    //         setEmail("");
-    //         setPassword("");
-    //         setConfirmPassword("");
-    //         setImageSlug("");
-    //         setErrorMessage("");
-    //     } catch (error) {
-    //         console.error("Failed:", error);
-    //         if (error.response && error.response.data && error.response.data.message) {
-    //             setErrorMessage(error.response.data.message);
-    //         } else {
-    //             setErrorMessage("An error occurred. Please try again later.");
-    //         }
-    //     }
-    // };
+            await dispatch(createUser(userData))
 
-    const handleCreateUser = () => {
-        useEffect(() => {
-        
-        })
-    }
+
+            setFullname("");
+            setUsername("");
+            setEmail("");
+            setPassword("");
+            setConfirmPassword("");
+            setImageSlug("");
+            setErrorMessage("");
+        } catch (error) {
+            console.error("Failed:", error);
+            if (error.response && error.response.data && error.response.data.message) {
+                setErrorMessage(error.response.data.message);
+            } else {
+                setErrorMessage("An error occurred. Please try again later.");
+            }
+        }
+    };
+
     const handleSubmit = (e) => {
         e.preventDefault();
 

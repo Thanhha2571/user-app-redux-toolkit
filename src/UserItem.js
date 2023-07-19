@@ -4,8 +4,8 @@ import { Link } from "react-router-dom";
 import { useState } from "react";
 
 const UserItem = (props) => {
-      const { img, fullname, email, uuid, roleObj } = props;
-      console.log(props);
+    const { img, fullname, email, uuid, roleObj } = props;
+    // console.log(props);
     const navigate = useNavigate();
     const [openMenu, setOpenMenu] = useState(null);
 
@@ -115,7 +115,7 @@ const UserItem = (props) => {
                 <img className="img" src={imageUrl} alt="avatar" />
                 <h2 className="user-item-fullname">{fullname}</h2>
             </Link>
-            <p className="user-item-email">{roleObj.title}</p>
+            <p className="user-item-email">{roleObj?.title}</p>
         </div>
     );
 };
