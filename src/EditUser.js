@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
@@ -9,14 +8,13 @@ const EditUser = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
 
-    // const [role, setRole] = useState("")
     const [fullname, setFullname] = useState("");
     const [username, setUsername] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
 
-    // const detailUser = useSelector((state) => state.users.user)
+
     useEffect(() => {
         dispatch(fetchUsers());
     }, [dispatch]);
@@ -33,7 +31,7 @@ const EditUser = () => {
     const handleEditUser = async () => {
         try {
           await dispatch(
-            editUser({fullname, email, password, confirmPassword })
+            editUser({uuid, fullname, email, password, confirmPassword })
           );
           navigate("/all-users");
         } catch (error) {
@@ -119,3 +117,4 @@ const EditUser = () => {
 }
 
 export default EditUser
+

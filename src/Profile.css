@@ -1,0 +1,42 @@
+.profile-user {
+    display: flex;
+    flex-direction: column;
+    background-color: #f7f7f7;
+    padding: 30px;
+}
+
+.sub-heading {
+    font-style: italic;
+}
+.detail-user {
+    display: flex;
+    flex-direction: row;
+    gap: 50px;
+    background-color: #fff;
+    padding: 30px;
+    border: 1px solid #d6cfcd;
+    border-radius: 20px;
+    margin-top: 20px;
+}
+.user-info {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.user-avatar {
+    width: 150px;
+    height: 150px;
+}
+
+.user-fullname {
+    font-size: 20px;
+    font-weight: bold;
+}
+.user-email {
+    font-style: italic;
+    font-size: 18px;
+}
+.user-date-join {
+    font-style: italic;
+}

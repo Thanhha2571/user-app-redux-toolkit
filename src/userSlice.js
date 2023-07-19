@@ -46,17 +46,6 @@ export const createUser = createAsyncThunk(
 );
 
 //edit user
-// export const editUser = createAsyncThunk(
-//   "users/editUser",
-//   async (userData, thunkAPI) => {
-//     try {
-//       const response = await userApi.editUser(userData);
-//       return response;
-//     } catch (err) {
-//       return thunkAPI.rejectWithValue(err);
-//     }
-//   }
-// );
 export const editUser = createAsyncThunk(
   "users/editUser",
   async (userData, thunkAPI) => {
@@ -69,17 +58,6 @@ export const editUser = createAsyncThunk(
   }
 )
 //delete user
-// export const deleteUser = createAsyncThunk(
-//   "users/deleteUser",
-//   async (uuid, thunkAPI) => {
-//     try {
-//       const response = await userApi.deleteUser(uuid);
-//       return response;
-//     }catch (err) {
-//       return thunkAPI.rejectWithValue(err);
-//     }
-//   }
-// );
 
 export const deleteUser = createAsyncThunk(
   "user/deleteUser",
@@ -124,20 +102,6 @@ export const userSlice = createSlice({
       .addCase(createUser.rejected, (state, action) => {
         state.loading = true;
       })
-
-      // edit user
-      // .addCase(editUser.fulfilled, (state, action) => {
-      //   state.loading = false;
-      //   const { index, updatedUser } = action.payload;
-      //   state.users[index] = updatedUser
-      // })
-
-      // delete user
-      // .addCase(deleteUser.fulfilled, (state, action) => {
-      //   state.loading = false;
-      //   state.users = state.users.filter((user) => user.uuid !== action.payload);
-      //   console.log(state.users);
-      // })
   }
 });
 
